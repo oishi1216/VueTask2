@@ -1,0 +1,169 @@
+<template>
+  <div>
+    <div class="contents">
+      <div class="contents-head">
+        <p class="step">STEP1</p>
+          <p class="info"><i class="fas fa-address-card fa-inverse my-gray"></i>お客様の情報を入力してください</p>
+      </div>
+      <div class="contents-main">
+        <p class="item">-性別-</p>
+        <div class="contents-radio">
+          <label><input type="radio" value="man" v-model="gender">男性</label>
+          <label><input type="radio" value="woman" v-model="gender">女性</label>
+        </div>
+        <p class="item">-生年月日-</p>
+        <div class="contents-select">
+          <select id="year" v-model="year" @change="retunMaxDay">
+            <option v-for="era in eraArray" :value="era.year" :key="era.year">{{ era.label }}</option>
+          </select>
+          年
+          <select id="month" v-model="month" @change="retunMaxDay">
+            <option v-for="month in 12" :value="month" :key="month.id">{{ month }}</option>
+          </select>
+          月
+          <select id="day" v-model="day">
+            <option v-for="day in maxDay" :value="day" :key="day.id">{{ day }}</option>
+          </select>
+          日
+        </div>
+      </div>
+    </div>
+    <div class="btn-area">
+      <div class="btn next">  
+        <router-link to="/page1" class="button is-primary">次へ進む<i class="fa fa-angle-right"></i></router-link>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script>
+export default {
+  data() {
+    return {
+      gender: '',
+      year: 1990,
+      month: 1,
+      day: 1,
+      eraArray: [],
+      maxDay: '',
+    }
+  },
+  mounted() {
+    this.eraArray = this.eraGenerate();
+    this.maxDay = this.getMaxDay();
+  },
+  methods: {
+    eraGenerate: function () {
+      const eraArray = []
+      for (let i = 1921; i <= 2021; i++){
+        if (i > 2018){
+          eraArray.push( {"year": i, "label": `${i} (令和${i-2018}年)`})
+        }
+        else if (i > 1988){
+          eraArray.push( {"year": i, "label": `${i} (平成${i-1988}年)`})
+        }
+        else if (i > 1925){
+          eraArray.push( {"year": i, "label": `${i} (昭和${i-1925}年)`})
+        }
+        else if (i > 1911){
+          eraArray.push( {"year": i, "label": `${i} (大正${i-1911}年)`})
+        }
+      }
+        return eraArray;
+    },
+    getMaxDay: function () {
+      let maxDay = new Date(this.year, this.month, 0).getDate();
+      return maxDay
+    },
+    retunMaxDay: function () {
+      this.maxDay = this.getMaxDay();
+    }
+  }
+}
+</script>
+
+<style>
+.contents {
+  font-family: Avenir, Helvetica, Arial, sans-serif;
+  width: 60%;
+  margin: 60px auto 25px auto;
+  color: #2c3e50;
+  border: 1px solid #31cccc;
+  padding: 0px;
+  border-radius: 2px;
+}
+
+.contents-head {
+    padding: 0px;
+    background-color: #ccffff;
+    font-size: 0;
+    height: 35px;
+    border-bottom: 1px solid #31cccc;
+}
+
+.step {
+  display: inline-block;
+  background-color: #00aaff;
+  font-size: 10px;
+  padding: 2px 5px 1px 5px;
+  color: #fff;
+  border-radius: 2px;
+  margin: 0px;
+  position: relative;
+  top: -1px;
+  left: -1px;
+}
+
+.fas {
+  color: #4d4d4d;
+  margin-right: 5px;
+}
+
+.info {
+  font-size: 15px;
+  color: #4d4d4d;;
+  margin: 0;
+  position: relative;
+  top: -10px;
+  text-align: center;
+}
+
+.contents-main {
+  margin: 10px 7px;
+}
+
+.item {
+  font-size: 12px;
+  margin: 15px 20px 10px 20px;
+  color: #6ea8cc;
+}
+
+.contents-radio {
+  padding: 10px 5px;
+}
+
+.contents-radio label {
+  margin-right: 10px;
+}
+
+.contents-select{
+  margin: 0 0 15px 5px;
+}
+
+.contents-select select{
+  padding:5px;
+}
+
+.btn-area{
+  text-align: center;
+}
+
+.btn{
+  display: inline-block;
+  margin: 0px 10px;
+}
+
+.fa-angle-right{
+  margin-left: 10px;
+}
+</style>
