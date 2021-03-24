@@ -13,16 +13,16 @@
         </div>
         <p class="item">-生年月日-</p>
         <div class="contents-select">
-          <select id="year" v-model="year" @change="retunMaxDay">
-            <option v-for="era in eraArray" :value="era.year" :key="era.year">{{ era.label }}</option>
+          <select id="year" v-model="year" @change="dayMethod">
+            <option v-for="era in years" :value="era.year" :key="era.year">{{ era.label }}</option>
           </select>
           年
-          <select id="month" v-model="month" @change="retunMaxDay">
-            <option v-for="month in 12" :value="month" :key="month.id">{{ month }}</option>
+          <select id="month" v-model="month" @change="dayMethod">
+            <option v-for="month in months" :value="month" :key="month.id">{{ month }}</option>
           </select>
           月
           <select id="day" v-model="day">
-            <option v-for="day in maxDay" :value="day" :key="day.id">{{ day }}</option>
+            <option v-for="day in days" :value="day" :key="day.id">{{ day }}</option>
           </select>
           日
         </div>
@@ -37,6 +37,8 @@
 </template>
 
 <script>
+import { yearList, monthNum, dayNum, getMaxDay } from "/src/helpers/definition";
+
 export default {
   data() {
     return {
@@ -44,41 +46,16 @@ export default {
       year: 1990,
       month: 1,
       day: 1,
-      eraArray: [],
-      maxDay: '',
+      years: yearList,
+      months: monthNum,
+      days: dayNum,
     }
-  },
-  mounted() {
-    this.eraArray = this.eraGenerate();
-    this.maxDay = this.getMaxDay();
   },
   methods: {
-    eraGenerate: function () {
-      const eraArray = []
-      for (let i = 1921; i <= 2021; i++){
-        if (i > 2018){
-          eraArray.push( {"year": i, "label": `${i} (令和${i-2018}年)`})
-        }
-        else if (i > 1988){
-          eraArray.push( {"year": i, "label": `${i} (平成${i-1988}年)`})
-        }
-        else if (i > 1925){
-          eraArray.push( {"year": i, "label": `${i} (昭和${i-1925}年)`})
-        }
-        else if (i > 1911){
-          eraArray.push( {"year": i, "label": `${i} (大正${i-1911}年)`})
-        }
-      }
-        return eraArray;
+    dayMethod(){
+      this.days = getMaxDay(this.year, this.month);
     },
-    getMaxDay: function () {
-      let maxDay = new Date(this.year, this.month, 0).getDate();
-      return maxDay
-    },
-    retunMaxDay: function () {
-      this.maxDay = this.getMaxDay();
-    }
-  }
+  },
 }
 </script>
 
