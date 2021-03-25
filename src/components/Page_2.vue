@@ -9,7 +9,7 @@
         <div class="insurance">
           <p class="item">-ご相談内容-</p>
           <div class="contents-message">
-            <textarea v-model="message"></textarea>
+            <textarea value="message" @input="messageUpdate"></textarea>
           </div>
         </div>
       </div>
@@ -19,18 +19,24 @@
         <router-link to="/page1" class="button is-primary">前へ戻る<i class="fa fa-angle-right"></i></router-link>
       </div>
       <div class="btn next">   
-        <router-link to="/page2" class="button is-primary">次へ進む<i class="fa fa-angle-right"></i></router-link>
+        <router-link to="/page3" class="button is-primary">次へ進む<i class="fa fa-angle-right"></i></router-link>
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import { mapState } from 'vuex'
+
 export default {
-  data() {
-    return {
-      message: '',
-    }
+  methods: {
+    messageUpdate(e) {
+      console.log(e.target.value);
+      this.$store.commit('messageUpdate',e.target.value)
+    },
+  },
+  computed: {
+    ...mapState(["message"]),
   },
 }
 </script>

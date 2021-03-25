@@ -8,21 +8,21 @@
       <div class="contents-main">
         <p class="item">-性別-</p>
         <div class="contents-radio">
-          <label><input type="radio" value="man" v-model="gender">男性</label>
-          <label><input type="radio" value="woman" v-model="gender">女性</label>
+          <label><input type="radio" value="男性" name="gender" @change="genderUpdate">男性</label>
+          <label><input type="radio" value="女性" name="gender" @change="genderUpdate">女性</label>
         </div>
         <p class="item">-生年月日-</p>
         <div class="contents-select">
-          <select id="year" v-model="year" @change="dayMethod">
+          <select id="year" v-model="year" @change="yearBoth">
             <option v-for="era in years" :value="era.year" :key="era.year">{{ era.label }}</option>
           </select>
           年
-          <select id="month" v-model="month" @change="dayMethod">
+          <select id="month" v-model="month" @change="monthBoth">
             <option v-for="month in months" :value="month" :key="month.id">{{ month }}</option>
           </select>
           月
-          <select id="day" v-model="day">
-            <option v-for="day in days" :value="day" :key="day.id">{{ day }}</option>
+          <select id="day" v-model="day" @change="dayUpdate">
+            <option v-for="day in $store.state.maxDay" :value="day" :key="day.id">{{ day }}</option>
           </select>
           日
         </div>
@@ -37,24 +37,47 @@
 </template>
 
 <script>
-import { yearList, monthNum, dayNum, getMaxDay } from "/src/helpers/definition";
+import { yearList, monthNum } from "/src/helpers/definition";
+import { mapState } from 'vuex'
 
 export default {
   data() {
     return {
-      gender: '',
-      year: 1990,
-      month: 1,
-      day: 1,
       years: yearList,
       months: monthNum,
-      days: dayNum,
     }
   },
   methods: {
-    dayMethod(){
-      this.days = getMaxDay(this.year, this.month);
+    genderUpdate(e) {
+      console.log(e.target.value);
+      this.$store.commit('genderUpdate',e.target.value)
     },
+    yearBoth(e) {
+      this.yearUpdate(e);
+      this.getMaxDay();
+    },
+    yearUpdate(e) {
+      this.$store.commit('yearUpdate',e.target.value)
+      console.log(e.target.value);
+      },
+    monthBoth(e) {
+      this.monthUpdate(e);
+      this.getMaxDay();
+    },   
+    monthUpdate(e) {
+      this.$store.commit('monthUpdate',e.target.value)
+      console.log(e.target.value);
+      },
+    dayUpdate(e) {
+      this.$store.commit('dayUpdate',e.target.value)
+      console.log(e.target.value);
+      },
+    getMaxDay(){
+      this.$store.commit('getMaxDay')
+    },
+  },
+  computed: {
+  ...mapState(["gender", "year", "month", "day"]),
   },
 }
 </script>
@@ -121,6 +144,7 @@ export default {
 
 .contents-radio label {
   margin-right: 10px;
+  font-size: 15px;
 }
 
 .contents-select{

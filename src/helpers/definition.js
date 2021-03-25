@@ -1,6 +1,5 @@
 const yearList = []
 const monthNum = 12
-const dayNum = 31
 
   for (let i = 1921; i <= 2021; i++){     
       if (i > 2018){
@@ -16,10 +15,5 @@ const dayNum = 31
         yearList.push( {"year": i, "label": `${i} (大正${i-1911}年)`})
       }
     }
-  
-  const getMaxDay = (year, month) => {
-    const maxDay = new Date(year, month, 0).getDate();
-    return maxDay;
-  }
-
-export{yearList, monthNum, dayNum, getMaxDay}
+ 
+export{yearList, monthNum}
