@@ -8,21 +8,21 @@
       <div class="contents-main">
         <p class="item">-性別-</p>
         <div class="contents-radio">
-          <label><input type="radio" value="男性" name="gender" @change="genderUpdate">男性</label>
-          <label><input type="radio" value="女性" name="gender" @change="genderUpdate">女性</label>
+          <label><input type="radio" value="男性" name="getGender" @change="updateGender">男性</label>
+          <label><input type="radio" value="女性" name="getGender" @change="updateGender">女性</label>
         </div>
         <p class="item">-生年月日-</p>
         <div class="contents-select">
-          <select id="year" v-model="year" @change="yearBoth">
+          <select id="year" v-model="getYear" @change="yearBoth">
             <option v-for="era in years" :value="era.year" :key="era.year">{{ era.label }}</option>
           </select>
           年
-          <select id="month" v-model="month" @change="monthBoth">
+          <select id="month" v-model="getMonth" @change="monthBoth">
             <option v-for="month in months" :value="month" :key="month.id">{{ month }}</option>
           </select>
           月
-          <select id="day" v-model="day" @change="dayUpdate">
-            <option v-for="day in $store.state.maxDay" :value="day" :key="day.id">{{ day }}</option>
+          <select id="day" v-model="getDay" @change="updateDay">
+            <option v-for="day in getMaxDay" :value="day" :key="day.id">{{ day }}</option>
           </select>
           日
         </div>
@@ -38,7 +38,6 @@
 
 <script>
 import { yearList, monthNum } from "/src/helpers/definition";
-import { mapState } from 'vuex'
 
 export default {
   data() {
@@ -48,36 +47,46 @@ export default {
     }
   },
   methods: {
-    genderUpdate(e) {
-      console.log(e.target.value);
-      this.$store.commit('genderUpdate',e.target.value)
+    updateGender(e) {
+      this.$store.commit('updateGender',e.target.value)
     },
     yearBoth(e) {
-      this.yearUpdate(e);
-      this.getMaxDay();
+      this.updateYear(e);
+      this.updateMaxDay();
     },
-    yearUpdate(e) {
-      this.$store.commit('yearUpdate',e.target.value)
-      console.log(e.target.value);
+    updateYear(e) {
+      this.$store.commit('updateYear',e.target.value)
       },
     monthBoth(e) {
-      this.monthUpdate(e);
-      this.getMaxDay();
+      this.updateMonth(e);
+      this.updateMaxDay();
     },   
-    monthUpdate(e) {
-      this.$store.commit('monthUpdate',e.target.value)
-      console.log(e.target.value);
+    updateMonth(e) {
+      this.$store.commit('updateMonth',e.target.value)
       },
-    dayUpdate(e) {
-      this.$store.commit('dayUpdate',e.target.value)
-      console.log(e.target.value);
+    updateDay(e) {
+      this.$store.commit('updateDay',e.target.value)
       },
-    getMaxDay(){
-      this.$store.commit('getMaxDay')
+    updateMaxDay(){
+      this.$store.commit('updateMaxDay')
     },
   },
   computed: {
-  ...mapState(["gender", "year", "month", "day"]),
+    getGender() {
+      return this.$store.getters.getGender
+    },
+    getYear() {
+      return this.$store.getters.getYear
+    },
+    getMonth() {
+      return this.$store.getters.getMonth
+    },
+    getDay() {
+      return this.$store.getters.getDay
+    },
+    getMaxDay() {
+      return this.$store.getters.getMaxDay
+    },
   },
 }
 </script>

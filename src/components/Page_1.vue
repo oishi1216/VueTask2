@@ -9,22 +9,22 @@
         <div class="insurance">
           <p class="item">現在、生命保険に加入されていますか？</p>
           <div class="contents-radio2">
-            <label><input type="radio" value="はい" name="question1" @change="question1Update">はい</label>
-            <label><input type="radio" value="いいえ" name="question1" @change="question1Update">いいえ</label>
+            <label><input type="radio" value="はい" name="getQuestion1" @change="updateQuestion1">はい</label>
+            <label><input type="radio" value="いいえ" name="getQuestion1" @change="updateQuestion1">いいえ</label>
           </div>
         </div>
-        <div class="hospitalization" v-if="question1">
+        <div class="hospitalization" v-if="getQuestion1">
           <p class="item">現在入院中ですか。または、最近3カ月以内に医師の診察・検査の結果、入院・手術をすすめられたことはありますか？</p>
           <div class="contents-radio2">
-            <label><input type="radio" value="はい" name="question2" @change="question2Update">はい</label>
-            <label><input type="radio" value="いいえ" name="question2" @change="question2Update">いいえ</label>
+            <label><input type="radio" value="はい" name="getQuestion2" @change="updateQuestion2">はい</label>
+            <label><input type="radio" value="いいえ" name="getQuestion2" @change="updateQuestion2">いいえ</label>
           </div>
         </div>
-        <div class="hospitalization" v-if="question2">
+        <div class="hospitalization" v-if="getQuestion2">
           <p class="item">過去5年以内に、病気やけがで、手術をうけたことまたは継続して7日以上の入院をしたことがありますか？</p>
           <div class="contents-radio2">
-            <label><input type="radio" value="はい" name="question3" @change="question3Update">はい</label>
-            <label><input type="radio" value="いいえ" name="question3" @change="question3Update">いいえ</label>
+            <label><input type="radio" value="はい" name="getQuestion3" @change="updateQuestion3">はい</label>
+            <label><input type="radio" value="いいえ" name="getQuestion3" @change="updateQuestion3">いいえ</label>
           </div>
         </div>
       </div>
@@ -41,25 +41,29 @@
 </template>
 
 <script>
-import { mapState } from 'vuex'
 
 export default {
   methods: {
-    question1Update(e) {
-      console.log(e.target.value);
-      this.$store.commit('question1Update',e.target.value)
+    updateQuestion1(e) {
+      this.$store.commit('updateQuestion1',e.target.value)
     },
-    question2Update(e) {
-      console.log(e.target.value);
-      this.$store.commit('question2Update',e.target.value)
+    updateQuestion2(e) {
+      this.$store.commit('updateQuestion2',e.target.value)
     },
-    question3Update(e) {
-      console.log(e.target.value);
-      this.$store.commit('question3Update',e.target.value)
+    updateQuestion3(e) {
+      this.$store.commit('updateQuestion3',e.target.value)
     },
   },
   computed: {
-  ...mapState(["question1", "question2", "question3"]),
+    getQuestion1() {
+      return this.$store.getters.getQuestion1
+    },
+    getQuestion2() {
+      return this.$store.getters.getQuestion2
+    },
+    getQuestion3() {
+      return this.$store.getters.getQuestion3
+    },
   },
 }
 </script>

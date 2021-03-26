@@ -32,11 +32,33 @@
 </template>
 
 <script>
-import { mapState } from 'vuex'
 
 export default {
   computed: {
-    ...mapState(["gender", "year", "month", "day","question1", "question2", "question3","message"]),
+    getGender() {
+      return this.$store.getters.getGender
+    },
+    getYear() {
+      return this.$store.getters.getYear
+    },
+    getMonth() {
+      return this.$store.getters.getMonth
+    },
+    getDay() {
+      return this.$store.getters.getDay
+    },
+    getQuestion1() {
+      return this.$store.getters.getQuestion1
+    },
+    getQuestion2() {
+      return this.$store.getters.getQuestion2
+    },
+    getQuestion3() {
+      return this.$store.getters.getQuestion3
+    },
+    getMessage() {
+      return this.$store.getters.getMessage
+    },
   },
 }
 </script>

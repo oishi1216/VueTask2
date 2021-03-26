@@ -15,32 +15,43 @@ export default new Vuex.Store({
     question3: '',
     message: '',
   },
+  getters: {
+    getGender: (state) => state.gender,
+    getYear: (state) => state.year,
+    getMonth: (state) => state.month,
+    getDay: (state) => state.day,
+    getMaxDay: (state) => state.maxDay,
+    getQuestion1: (state) => state.question1,
+    getQuestion2: (state) => state.question2,
+    getQuestion3: (state) => state.question3,
+    getMessage: (state) => state.message,
+  },
   mutations: {
-    genderUpdate(state, gender) {
+    updateGender(state, gender) {
       state.gender = gender
     },
-    yearUpdate(state, year) {
+    updateYear(state, year) {
       state.year = year
     },
-    monthUpdate(state, month) {
+    updateMonth(state, month) {
       state.month = month
     },
-    dayUpdate(state, day) {
+    updateDay(state, day) {
       state.day = day
     },
-    getMaxDay(state) {
+    updateMaxDay(state) {
       state.maxDay = new Date(state.year, state.month, 0).getDate();
     },
-    question1Update(state, question1) {
+    updateQuestion1(state, question1) {
       state.question1 = question1
     },
-    question2Update(state, question2) {
+    updateQuestion2(state, question2) {
       state.question2 = question2
     },
-    question3Update(state, question3) {
+    updateQuestion3(state, question3) {
       state.question3 = question3
     },
-    messageUpdate(state, message) {
+    updateMessage(state, message) {
       state.message = message
     },
   },

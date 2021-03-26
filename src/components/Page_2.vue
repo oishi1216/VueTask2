@@ -9,7 +9,7 @@
         <div class="insurance">
           <p class="item">-ご相談内容-</p>
           <div class="contents-message">
-            <textarea value="message" @input="messageUpdate"></textarea>
+            <textarea value="getMessage" @input="updateMessage"></textarea>
           </div>
         </div>
       </div>
@@ -26,17 +26,17 @@
 </template>
 
 <script>
-import { mapState } from 'vuex'
 
 export default {
   methods: {
-    messageUpdate(e) {
-      console.log(e.target.value);
-      this.$store.commit('messageUpdate',e.target.value)
+    updateMessage(e) {
+      this.$store.commit('updateMessage',e.target.value)
     },
   },
   computed: {
-    ...mapState(["message"]),
+    getMessage() {
+      return this.$store.getters.getMessage
+    },
   },
 }
 </script>
